@@ -1,8 +1,12 @@
+
+
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+// FALTA PEGAR A TABELAS DIAS E CRIAR A OUTRA PARA AS POSIÇÕES DAS SALAS. CRIAR UMA COLNA PARA CADA SALA. FAZER A SOMA TOTAL DE SALAS
 /**
  *
  * @author Iran
@@ -11,7 +15,14 @@ public class EscalaProvaMain extends javax.swing.JFrame {
 public static int NDias=0, NFiscais=0;
 public static String NomeEscala;
 public static int Status = 0;
-
+public static int []diaseSalas ;
+public static int [][]SalasFiscais ;
+//private static DefaultTableModel TabelaNew;
+//DefaultTableModel TabelaNew = new DefaultTableModel();
+private static DefaultTableModel TabelaNew = new DefaultTableModel();
+private static DefaultTableModel TabelaSalasDias = new DefaultTableModel();
+private static DefaultTableModel modelo;
+//public static DefaultTableModel modelo = new DefaultTableModel();
 
     /**
      * Creates new form EscalaProva
@@ -30,6 +41,11 @@ public static int Status = 0;
     private void initComponents() {
 
         jButton3 = new javax.swing.JButton();
+        jScrollPaneResultado = new javax.swing.JScrollPane();
+        jTableProfessores = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButttabelSalasDias = new javax.swing.JButton();
+        jButmover = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemAbrir = new javax.swing.JMenuItem();
@@ -37,6 +53,7 @@ public static int Status = 0;
         jMenuItemSalvar = new javax.swing.JMenuItem();
         jMenuItemSair = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Escala de Prova");
@@ -46,6 +63,42 @@ public static int Status = 0;
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jScrollPaneResultado.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultados"));
+
+        jTableProfessores.setAutoCreateRowSorter(true);
+        jTableProfessores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null}
+            },
+            new String [] {
+                "A", "B"
+            }
+        ));
+        jTableProfessores.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTableProfessores.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+        jScrollPaneResultado.setViewportView(jTableProfessores);
+
+        jButton1.setText("tabela prof");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButttabelSalasDias.setText("TabelaSalasDias");
+        jButttabelSalasDias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButttabelSalasDiasActionPerformed(evt);
+            }
+        });
+
+        jButmover.setText("jButtMOver");
+        jButmover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButmoverActionPerformed(evt);
             }
         });
 
@@ -78,6 +131,10 @@ public static int Status = 0;
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Editar");
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenu2.add(jMenuItem1);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -86,20 +143,45 @@ public static int Status = 0;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(653, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPaneResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(42, 42, 42))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButttabelSalasDias)
+                            .addComponent(jButmover))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(363, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(82, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButttabelSalasDias)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButmover)
+                        .addGap(69, 69, 69)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPaneResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44))))
         );
 
-        setSize(new java.awt.Dimension(707, 432));
+        jScrollPaneResultado.getAccessibleContext().setAccessibleName("Resultados");
+
+        setSize(new java.awt.Dimension(667, 432));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -121,6 +203,7 @@ System.exit(0);        // TODO add your handling code here:
  if (Status==1){
      Status = 0;// para pegar o retorno dos DiasSalas()
         DiasSalas();
+          CriarTabelaSalasDias();
  }
  
  
@@ -139,31 +222,161 @@ System.exit(0);        // TODO add your handling code here:
   
  
     }//GEN-LAST:event_jMenuItemNovaEscalaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+//TabelaNew
+        jTableProfessores.setModel(TabelaNew);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButttabelSalasDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButttabelSalasDiasActionPerformed
+
+    jTableProfessores.setModel(TabelaSalasDias);
+    //jTableProfessores.moveColumn(NORMAL, Status);
+//int ultimaColunaIndex = modelo.getColumnCount() - 1;
+    
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButttabelSalasDiasActionPerformed
+
+    private void jButmoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButmoverActionPerformed
+    int primeiraColunaIndex = 1;
+    int ultimaColunaIndex = jTableProfessores.getColumnCount() - 1;
+    
+        jTableProfessores.moveColumn(primeiraColunaIndex, ultimaColunaIndex);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButmoverActionPerformed
 public static void Nprofessores(){
       JDialogFiscal  dlProfe= new JDialogFiscal(null, true);
       
       dlProfe.setVisible(true);
       // ************* PEGAR O A QUANTIDADE DE FISCAIS *****************
-   
-     NFiscais =dlProfe.Infor_NFiscias();
-             Status = dlProfe.Status();
-           System.out.println("141 principal NFiscais =  "+NFiscais);
+     Status = dlProfe.Status();
+      if (Status==1){
+          NFiscais =dlProfe.Infor_NFiscias();
+     System.out.println("141 principal NFiscais =  "+NFiscais);
+      }
  // ************* FIM DE PEGAR A QUANTIDADE DE FISCAIS *****************     
         
 }
     
- public static void  TabelaProfessores(){
+public static void  TabelaProfessores(){
       DialogTabelaProfessor  dlTabelaProfe= new DialogTabelaProfessor(null, true);
       
       dlTabelaProfe.Receber_NFisc_NDias_Nome(NFiscais, NDias, NomeEscala);
       
       dlTabelaProfe.setVisible(true);
+      
+      Status = dlTabelaProfe.Status(); 
+  if (Status==1){    
+     SalasFiscais= dlTabelaProfe.matriz();//esta não vai ser preciso apagar depois ela e a função
+//     for (int lin = 1; lin<=2*NFiscais ;lin++){ 
+//       for (int Col = 3; Col<=NDias+2 ;Col++){ 
+////               System.out.println("main 167 SalasFiscais = "+SalasFiscais [lin-1] [Col-1]);
+//       }
+//      } 
+//     DefaultTableModel modelo = new DefaultTableModel();
+     modelo = dlTabelaProfe.PegarTabelaFis();
+//       int ContCol=0;
+    
+      for (int lin = 1; lin<=3*NFiscais ;lin++){ 
+//           System.out.println("main 232 linha  "+lin);  
+     for (int Col = 1; Col<=NDias ;Col++){ 
+//            ContCol=ContCol+1;
+//                 System.out.println("main 2236 Coluna  "+Col);  
+//      System.out.print(" "+modelo.getValueAt(lin-1,Col-1));
+       }
+//      System.out.println(" ");
+      } 
      
-     
-     
- }   
+      OrganizarTabelaFiscal();
+  
+  }
+  
+}
  
-    public static void DiasSalas(){
+public static void CriarTabelaSalasDias(){
+  int SalaMaior = 0;  
+    for (int lin = 1; lin<=2*NDias ;lin++){  
+//     System.out.println("dia");
+          TabelaSalasDias.addRow(new Object [] { ""} );
+//    System.out.print("diaseSalas"+ diaseSalas [lin-1]);
+         for (int Col = 1; Col<=diaseSalas [lin-1]  ;Col++){
+    if(SalaMaior<diaseSalas [lin-1]){
+    SalaMaior=SalaMaior+1;  
+    TabelaSalasDias.addColumn("Sala"+SalaMaior);//
+//    if(totalSala<=diaseSalas [lin-1]){
+//     TabelaSalasDias.addRow(new Object [] { ""} );
+    }
+     TabelaSalasDias.setValueAt(1, lin-1, Col-1);
+//      System.out.print(" "+TabelaSalasDias.getValueAt( lin-1, Col-1));  
+         }
+//         System.out.println(""); 
+    }
+//      for (int lin = 1; lin<=3*NFiscais ;lin++){ 
+////           System.out.println("main 232 linha  "+lin);  
+//     for (int Col = 1; Col<=NDias ;Col++){ 
+////            ContCol=ContCol+1;
+////                 System.out.println("main 2236 Coluna  "+Col);  
+////      System.out.print(" "+modelo.getValueAt(lin-1,Col-1));
+//       }
+////      System.out.println(" ");
+//      } 
+////}
+}
+public static void OrganizarTabelaFiscal(){
+ 
+//             System.out.print("comeca ");
+            int ContC=-1;// colunas da taabela nova
+            int contL=0;//linha da taabela nova
+       
+//                for (int Col = 1; Col<=NDias ;Col++){ 
+                    
+                    
+     for (int lin = 1; lin<=3*NFiscais ;lin=lin+3){//linha dos dados originais 
+         contL=-1;
+            
+         ContC=ContC+1;
+            
+       TabelaNew.addColumn("Fiscal"+(ContC+1));//
+//           System.out.println("main 265 coluna  "+ContC);  
+// int linantigo;
+           for (int col = 1; col<=NDias ;col++){ //coluna dos dados originais
+//                ContC=ContC+1;
+                contL=contL+1;
+//                linantigo=0;
+//                linantigo=linantigo+1;
+        if(lin==1){
+         TabelaNew.addRow(new Object [] {""} );
+         TabelaNew.addRow(new Object [] {""} );
+         TabelaNew.addRow(new Object [] {""} );
+            }
+//         System.out.println("main 276 coluna  "+ContC);
+           TabelaNew.setValueAt(modelo.getValueAt(lin-1,col-1), contL, ContC);//primeiro elemento
+          
+//           System.out.print(" "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
+//       System.out.println("main 280 coluna  "+ContC);
+            contL=contL+1;
+            TabelaNew.setValueAt(modelo.getValueAt(lin,col-1), contL, ContC);//segundo elemento
+//            System.out.print(" "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
+      
+             contL=contL+1;
+            TabelaNew.setValueAt(modelo.getValueAt(lin+1,col-1), contL, ContC);//livre
+
+//      System.out.print(" "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
+      
+      
+       }
+//      System.out.println(" ");
+      } 
+    
+    
+    
+}
+
+public static void DiasSalas(){
           JDialogTabelaDias_Salas  dlDias_Salas= new JDialogTabelaDias_Salas(null, true);
           
            // ************* ENVIA O NOME E A QUANTIDADE DE DIAS *****************
@@ -172,26 +385,33 @@ public static void Nprofessores(){
        dlDias_Salas.Receber_Nome_NDias(NDias, NomeEscala);
  // ************* FIM DE ENVIAR O NOME E A QUANTIDADE DE DIAS *****************
             dlDias_Salas.setVisible(true); 
-        
        Status = dlDias_Salas.Status();
-            
-            
+ // ************* PEGA TODA A MATRIZ DA TABELA DE DIAS E SALAS POR DIAS **************
+   if (Status==1){
+ diaseSalas = new int [2*NDias];
+ diaseSalas= dlDias_Salas.matriz();
+ 
+ 
+ 
+ 
+   }
+  // ************* FIM DE PEGAR TODA A MATRIZ DA TABELA DE DIAS E SALAS POR DIAS **************
+
             
     }
     
     
-     public static void CriarEscala(){
+public static void CriarEscala(){
           DialogCriarEscala  dlgCriar= new DialogCriarEscala(null, true);
            
           dlgCriar.setVisible(true); 
-         
+         Status = dlgCriar.Status();
    // ************* PEGAR O NOME E A QUANTIDADE DE DIAS *****************
-   
-     
-     NDias =dlgCriar.Infor_NDias();
+    if (Status==1){
+   NDias =dlgCriar.Infor_NDias();
    NomeEscala=dlgCriar.Infor_NomeEscala();
-          Status = dlgCriar.Status();
-           System.out.println("161 principal NDias =  "+NDias);
+    }
+             
  // ************* FIM DE PEGAR O NOME E A QUANTIDADE DE DIAS *****************
   
   
@@ -237,13 +457,19 @@ public static void Nprofessores(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButmover;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButttabelSalasDias;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAbrir;
     private javax.swing.JMenuItem jMenuItemNovaEscala;
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSalvar;
+    private javax.swing.JScrollPane jScrollPaneResultado;
+    private javax.swing.JTable jTableProfessores;
     // End of variables declaration//GEN-END:variables
 }

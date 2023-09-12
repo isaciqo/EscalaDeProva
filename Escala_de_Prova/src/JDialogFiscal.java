@@ -53,7 +53,7 @@ public class JDialogFiscal extends javax.swing.JDialog {
         jLabel3.setText("Número de Fiscais Disponíveis");
 
         jTextnFiscais.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextnFiscais.setText("10");
+        jTextnFiscais.setText("4");
         jTextnFiscais.setToolTipText("");
 
         jButtonCancelar.setText("CANCELAR");

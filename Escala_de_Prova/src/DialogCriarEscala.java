@@ -126,7 +126,7 @@ String Nundaescala;
         jTextnFiscais.setEnabled(false);
 
         jTextnDias.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextnDias.setText("5");
+        jTextnDias.setText("3");
         jTextnDias.setToolTipText("");
 
         jLabelNDias.setText("Número de dias");

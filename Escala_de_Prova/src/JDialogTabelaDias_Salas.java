@@ -16,7 +16,7 @@ public class JDialogTabelaDias_Salas extends javax.swing.JDialog {
         int StatusDados=0;
         String NomeEscala;   
         int NDias=0; 
-        
+        int []diaseSalas ;
         
         
         
@@ -164,7 +164,7 @@ System.out.println("120 na janela 3 NDias =  "+NDias);
                modeloturmas.addColumn("Dia", new Object [] {""});
                modeloturmas.addColumn("HORÁRIO", new Object [] {""});
                modeloturmas.addColumn("SALAS", new Object [] {""});
-               modeloturmas.addColumn("N Reservas", new Object [] {""});
+//               modeloturmas.addColumn("N Reservas", new Object [] {""});
 
 // ******  FIM DE CRIAR AS COLUNAS *****************************     
 modeloturmas.setNumRows(0);
@@ -179,19 +179,19 @@ lin2=lin2+2;
  modeloturmas.setValueAt(i, lin1, 0);
      modeloturmas.setValueAt("1h", lin1, 1); 
        modeloturmas.setValueAt("1", lin1, 2);
-              modeloturmas.setValueAt("1", lin1, 3);
+//              modeloturmas.setValueAt("1", lin1, 3);
                 modeloturmas.addRow(new Object [] { ""} );
                 modeloturmas.setValueAt(i, lin2, 0);
                 modeloturmas.setValueAt("2h", lin2, 1);
                 modeloturmas.setValueAt("1", lin2, 2);
-                modeloturmas.setValueAt("1", lin2, 3);
+//                modeloturmas.setValueAt("1", lin2, 3);
                 
         }
 // ******  FIM DE CRIAR AS LINHAS COM VALORES PADRÕES *****************************
 jTableDias_Turmas.getColumnModel().getColumn(0).setPreferredWidth(40);
          jTableDias_Turmas.getColumnModel().getColumn(1).setPreferredWidth(80);
          jTableDias_Turmas.getColumnModel().getColumn(2).setPreferredWidth(80);
-         jTableDias_Turmas.getColumnModel().getColumn(3).setPreferredWidth(120);
+//         jTableDias_Turmas.getColumnModel().getColumn(3).setPreferredWidth(120);
                      
  
 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -200,7 +200,7 @@ DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         jTableDias_Turmas.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         jTableDias_Turmas.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
          jTableDias_Turmas.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        jTableDias_Turmas.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+//        jTableDias_Turmas.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 //***************** FIM DE MONTAR TABELA ***************************      
 
         
@@ -210,7 +210,7 @@ DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
      
        NomeEscala=NomeEscalaimput;   
        NDias=   NDiasinput;
-   System.out.println("168 janela 3 NDias =  "+NDias);
+//   System.out.println("168 janela 3 NDias =  "+NDias);
         MontarTabela();
         
    } 
@@ -250,12 +250,27 @@ DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
      return StatusDados;
              
     }
+     
+     public int[] matriz(){
+         
+         return diaseSalas;
+         
+     }
+     
+     
      public void ler_dados(){
-         
-         
-          System.out.println("249 falt fazer =  ");
-         
-         
+      DefaultTableModel DadosTabelaDias = (DefaultTableModel) jTableDias_Turmas.getModel();
+      diaseSalas = new int [2*NDias];//o comprimento sera o numero de dias  
+//      int totalsalas=0;
+      for (int lin = 1; lin<=2*NDias ;lin++){ 
+//          totalsalas = totalsalas+Integer.parseInt((String)jTableDias_Turmas.getValueAt(lin-1,2));
+      diaseSalas [lin-1] = Integer.parseInt((String)jTableDias_Turmas.getValueAt(lin-1,2));  
+//      System.out.println("tabela dias 268 diaseSalas = "+diaseSalas [lin-1]);
+      } 
+      
+//       System.out.println("271 tabela totalsalas = "+totalsalas);
+      
+      
      }
     /**
      * @param args the command line arguments

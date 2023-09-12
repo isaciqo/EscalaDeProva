@@ -1,6 +1,6 @@
 
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,13 +20,19 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
     int NFiscais=0;
     int StatusDados=0;
      int gravar=0; 
+     int [][]SalasFiscais;
+     DefaultTableModel modelo = new DefaultTableModel();
+     //**********************************************************
+           ////jTableProfessores.getValueAt(lin-1,Col-1)    RETORNA UM OBJETO
+           //************************************************
     /**
      * Creates new form DialogProfessor
      */
     public DialogTabelaProfessor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
         
+        initComponents();
+       
     }
 
     /**
@@ -58,7 +64,7 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
             }
         });
 
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Professores, Dias e Reservas"));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Professores nos Dias"));
 
         jTableProfessores.setAutoCreateRowSorter(true);
         jTableProfessores.setModel(new javax.swing.table.DefaultTableModel(
@@ -142,15 +148,15 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
                     .addComponent(jTextnFiscais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonContinuar))
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(495, 433));
+        setSize(new java.awt.Dimension(495, 478));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -158,11 +164,15 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
         StatusDados= 0;
         dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
-
+        public int Status(){
+        
+     return StatusDados;
+             
+    }
     private void jButtonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContinuarActionPerformed
         ///LER TODOS OS DADOS E CONTINUAR SE TUDO ESTIVER CERTO
 //FALATAR FAZER ESTA LEITURA DOS DADOS PARA SABER SE ESTA TUDO CERTO
-      //  ler_dados();
+        ler_dados();
 
         if (gravar == 1){
             //            //Salva os dados e sai
@@ -185,6 +195,46 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonContinuarActionPerformed
 
+    public int[][] matriz(){
+         
+         return SalasFiscais;
+         
+     }
+    
+    public DefaultTableModel PegarTabelaFis() {
+        return modelo;
+    }
+        
+    
+     public void ler_dados(){
+//        DefaultTableModel modelo = new DefaultTableModel();
+//        JTable TableFiscais = new JTable(modelo);// serve para depois colocar na tela. gpt disse. rsrsrs
+        int ContCol=0;
+      SalasFiscais = new int [3*NFiscais][NDias];//o comprimento sera o numero de dias   
+     
+        for (int Col = 3; Col<=NDias+2 ;Col++){ //+2 por conta das colunas fiscal e horário
+            ContCol=ContCol+2;
+              modelo.addColumn("Dia"+(Col-3));//texto dia1,dia2,....
+//            modelo.addColumn("Livre"+Col);//texto Livre1,Livre2,....
+//             System.out.println("215 tabela  Coluna  "+(Col-3));  
+      for (int lin = 1; lin<=3*NFiscais ;lin++){ 
+           modelo.addRow(new Object [] {""} );
+     
+            String tes1 = jTableProfessores.getValueAt(lin-1,Col-1).toString();
+            SalasFiscais [lin-1] [Col-3]=Integer.parseInt( tes1);
+
+          modelo.setValueAt(SalasFiscais [lin-1] [Col-3], lin-1, Col-3);//1h
+
+//      System.out.print(" "+modelo.getValueAt(lin-1,Col-3));
+
+      
+       }
+//      System.out.println(" ");
+      } 
+        gravar =1;
+//        testandomodelo.moveRow(1,2 ,4);
+     }
+     
     public void MontarTabela(){
        
              //***************** MONTAR TABELA ***************************  
@@ -200,30 +250,37 @@ jTextnFiscais.setText(String.valueOf(NFiscais));
                modeloProfessores.addColumn("HORÁRIO", new Object [] {""});
                for (int i = 1; i<=NDias ;i++){
                modeloProfessores.addColumn("DIA"+i, new Object [] {""});
+//               modeloProfessores.addColumn("Livre"+i, new Object [] {""});
                }
-               modeloProfessores.addColumn("N Reservas", new Object [] {""});
+             //  modeloProfessores.addColumn("N Reservas", new Object [] {""});
 
 // ******  FIM DE CRIAR AS COLUNAS *****************************
         
         // ****** CRIA AS LINHAS COM VALORES PADRÕES *****************************            
-int lin1=-2;
-int lin2=-1;
-for (int i = 1; i<=NFiscais ;i++){//cria as linhas = turmas2*
+int lin1=-3;
+//int lin2=-2;
+for (int lin = 1; lin<=NFiscais ;lin++){//cria as linhas = turmas2*
             modeloProfessores.addRow(new Object [] { ""} );
- lin1=lin1+2;
-lin2=lin2+2;
- modeloProfessores.setValueAt("Fiscal"+i, lin1, 0);
+ lin1=lin1+3;
+//lin2=lin2+3;
+//lin2=lin2+3;
+
+ modeloProfessores.setValueAt("Fiscal"+lin, lin1, 0);
      modeloProfessores.setValueAt("1h", lin1, 1);
-         modeloProfessores.addRow(new Object [] { ""} );
-       modeloProfessores.setValueAt("Fiscal"+i, lin2, 0);
-                modeloProfessores.setValueAt("2h", lin2, 1);
-         for (int li = 1; li<=NDias+1;li++){
-                
-       modeloProfessores.setValueAt("1", lin1, li+1);
-        modeloProfessores.setValueAt("1", lin2, li+1);
+     
+       modeloProfessores.addRow(new Object [] { ""} );
+       modeloProfessores.setValueAt("Fiscal"+lin, lin1+1, 0);
+       modeloProfessores.setValueAt("2h", lin1+1, 1);
+       modeloProfessores.addRow(new Object [] { ""} );//linha do livre
+       modeloProfessores.setValueAt("LIVRE", lin1+2, 0);
+       
+         for (int col = 1; col<=NDias;col++){
+       modeloProfessores.setValueAt(lin1, lin1, col+1);//colocar 1 depois no lugar de lin+1
+       modeloProfessores.setValueAt(lin1+1, lin1+1, col+1);
+       modeloProfessores.setValueAt(100, lin1+2, col+1);// valor do livre
       }
        
-//              modeloProfessores.setValueAt("1", lin1, NDias+1);// já está no for
+//              modeloProfessores.setValueAt("1", ln1, NDias+1);// já está no for
               
       // tentar colocar em 1 só for os dias do 1h e 2h        
               
@@ -249,8 +306,8 @@ DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
          jTableProfessores.getColumnModel().getColumn(li+1).setPreferredWidth(40);
              jTableProfessores.getColumnModel().getColumn(li+1).setCellRenderer(centerRenderer);
           }
-         jTableProfessores.getColumnModel().getColumn(NDias+2).setPreferredWidth(120);
-         jTableProfessores.getColumnModel().getColumn(NDias+2).setCellRenderer(centerRenderer);
+//         jTableProfessores.getColumnModel().getColumn(NDias+2).setPreferredWidth(120);
+//         jTableProfessores.getColumnModel().getColumn(NDias+2).setCellRenderer(centerRenderer);
 //***************** FIM DE MONTAR TABELA ***************************      
     }
     
