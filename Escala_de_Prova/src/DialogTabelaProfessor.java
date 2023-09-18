@@ -1,5 +1,6 @@
 
-import javax.swing.JTable;
+import javax.swing.JOptionPane;
+//import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -21,6 +22,7 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
     int StatusDados=0;
      int gravar=0; 
      int [][]SalasFiscais;
+     int []diaseSalas ;
      DefaultTableModel modelo = new DefaultTableModel();
      //**********************************************************
            ////jTableProfessores.getValueAt(lin-1,Col-1)    RETORNA UM OBJETO
@@ -211,24 +213,50 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
 //        JTable TableFiscais = new JTable(modelo);// serve para depois colocar na tela. gpt disse. rsrsrs
         int ContCol=0;
       SalasFiscais = new int [3*NFiscais][NDias];//o comprimento sera o numero de dias   
-     
+     int ColDia = -1;
         for (int Col = 3; Col<=NDias+2 ;Col++){ //+2 por conta das colunas fiscal e horário
+            int Soma1h = 0;
+            int Soma2h = 0;
+            ColDia=ColDia+2;
             ContCol=ContCol+2;
               modelo.addColumn("Dia"+(Col-3));//texto dia1,dia2,....
 //            modelo.addColumn("Livre"+Col);//texto Livre1,Livre2,....
-//             System.out.println("215 tabela  Coluna  "+(Col-3));  
+             System.out.println("224 dia=  "+(Col-2));  
+  
       for (int lin = 1; lin<=3*NFiscais ;lin++){ 
            modelo.addRow(new Object [] {""} );
      
-            String tes1 = jTableProfessores.getValueAt(lin-1,Col-1).toString();
+            String tes1 = (String)jTableProfessores.getValueAt(lin-1,Col-1);//.toString();//começa a pegar da segunda coluna
             SalasFiscais [lin-1] [Col-3]=Integer.parseInt( tes1);
 
-          modelo.setValueAt(SalasFiscais [lin-1] [Col-3], lin-1, Col-3);//1h
+          modelo.setValueAt(SalasFiscais [lin-1] [Col-3], lin-1, Col-3);//1h// salva na primeira coluna, índice=0
+//    Soma1h += (int) SalasFiscais [lin-1] [Col-3];//pega a linha 0
+          if (lin % 3 == 0) {
 
-//      System.out.print(" "+modelo.getValueAt(lin-1,Col-3));
-
+//              System.out.println("235 horario= "+(lin-2));
+//              System.out.println("237 horario= "+(lin-1));
+            Soma1h += (int) SalasFiscais [lin-3] [Col-3];
+            Soma2h += (int) SalasFiscais [lin-2] [Col-3];
+        }
+         
       
        }
+      
+//      System.out.println("242 quantidade de fiscais no 1h= "+Soma1h);
+//      System.out.println("243 quantidades de salas no 1h = "+diaseSalas[ColDia-1]);
+//      System.out.println("244quantidade de fiscais no  no 2h = "+Soma2h);
+//      System.out.println("245 quantidades de salas no 2h = "+diaseSalas[ColDia]);
+//      tem um erro nos dias, aparece até cinco dias quando são 3
+      if (Soma1h <diaseSalas[ColDia-1] ) {
+          JOptionPane.showMessageDialog(rootPane, "A quantidade de fiscais é insuficiente para o dia "+(Col-2)+" horário 1", "AVISO", 2);//fica fora do Frame
+        return;      
+      }
+      if (Soma2h <diaseSalas[ColDia] ) {
+          JOptionPane.showMessageDialog(rootPane, "A quantidade de fiscais é insuficiente para o dia "+(Col-2)+" horário 2", "AVISO", 2);//fica fora do Frame
+        return;      
+      }
+      
+      
 //      System.out.println(" ");
       } 
         gravar =1;
@@ -275,9 +303,9 @@ for (int lin = 1; lin<=NFiscais ;lin++){//cria as linhas = turmas2*
        modeloProfessores.setValueAt("LIVRE", lin1+2, 0);
        
          for (int col = 1; col<=NDias;col++){
-       modeloProfessores.setValueAt(lin1, lin1, col+1);//colocar 1 depois no lugar de lin+1
-       modeloProfessores.setValueAt(lin1+1, lin1+1, col+1);
-       modeloProfessores.setValueAt(100, lin1+2, col+1);// valor do livre
+       modeloProfessores.setValueAt("1", lin1, col+1);//colocar 1 depois no lugar de lin+1
+       modeloProfessores.setValueAt("1", lin1+1, col+1);
+       modeloProfessores.setValueAt("1", lin1+2, col+1);// valor do livre
       }
        
 //              modeloProfessores.setValueAt("1", ln1, NDias+1);// já está no for
@@ -312,12 +340,14 @@ DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     }
     
     
-    public void Receber_NFisc_NDias_Nome(int NFiscinput, int NDiasinput, String NomeEscalaimput){
+    public void Receber_NFisc_NDias_Nome(int NFiscinput, int NDiasinput, String NomeEscalaimput,int[]DiaseSalas){
      
        NomeEscala=NomeEscalaimput;   
        NDias=   NDiasinput;
        NFiscais=NFiscinput;
+       diaseSalas=DiaseSalas;
        MontarTabela();
+       
         
    } 
     

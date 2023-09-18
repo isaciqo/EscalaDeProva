@@ -20,6 +20,7 @@ public static int [][]SalasFiscais ;
 //private static DefaultTableModel TabelaNew;
 //DefaultTableModel TabelaNew = new DefaultTableModel();
 private static DefaultTableModel TabelaNew = new DefaultTableModel();
+private static DefaultTableModel TabelaFiscalRank = new DefaultTableModel();
 private static DefaultTableModel TabelaSalasDias = new DefaultTableModel();
 private static DefaultTableModel modelo;
 //public static DefaultTableModel modelo = new DefaultTableModel();
@@ -251,6 +252,8 @@ System.exit(0);        // TODO add your handling code here:
 public static void Nprofessores(){
       JDialogFiscal  dlProfe= new JDialogFiscal(null, true);
       
+     dlProfe.Receber_MatrizSalas(diaseSalas,NDias);
+      
       dlProfe.setVisible(true);
       // ************* PEGAR O A QUANTIDADE DE FISCAIS *****************
      Status = dlProfe.Status();
@@ -265,7 +268,7 @@ public static void Nprofessores(){
 public static void  TabelaProfessores(){
       DialogTabelaProfessor  dlTabelaProfe= new DialogTabelaProfessor(null, true);
       
-      dlTabelaProfe.Receber_NFisc_NDias_Nome(NFiscais, NDias, NomeEscala);
+      dlTabelaProfe.Receber_NFisc_NDias_Nome(NFiscais, NDias, NomeEscala,diaseSalas);
       
       dlTabelaProfe.setVisible(true);
       
@@ -281,22 +284,37 @@ public static void  TabelaProfessores(){
      modelo = dlTabelaProfe.PegarTabelaFis();
 //       int ContCol=0;
     
-      for (int lin = 1; lin<=3*NFiscais ;lin++){ 
-//           System.out.println("main 232 linha  "+lin);  
-     for (int Col = 1; Col<=NDias ;Col++){ 
-//            ContCol=ContCol+1;
-//                 System.out.println("main 2236 Coluna  "+Col);  
-//      System.out.print(" "+modelo.getValueAt(lin-1,Col-1));
-       }
-//      System.out.println(" ");
-      } 
+////      for (int lin = 1; lin<=3*NFiscais ;lin++){ 
+//////           System.out.println("main 232 linha  "+lin);  
+////     for (int Col = 1; Col<=NDias ;Col++){ 
+//////            ContCol=ContCol+1;
+//////                 System.out.println("main 2236 Coluna  "+Col);  
+//////      System.out.print(" "+modelo.getValueAt(lin-1,Col-1));
+////       }
+//////      System.out.println(" ");
+////      } 
      
       OrganizarTabelaFiscal();
+      
+      // AGORA VAI CHAMAR A FUNÇÃO PARA FAZER O RANKING DOS FISCAIS
+      CriarRanking(TabelaNew);
+     TabelaFiscalRank = TabelaNew;
+      
   
   }
   
 }
  
+public static void CriarRanking(DefaultTableModel TabelaNova){
+   
+    
+
+
+//private static DefaultTableModel TabelaNew = new DefaultTableModel();
+
+
+}
+
 public static void CriarTabelaSalasDias(){
   int SalaMaior = 0;  
     for (int lin = 1; lin<=2*NDias ;lin++){  
@@ -329,7 +347,7 @@ public static void CriarTabelaSalasDias(){
 public static void OrganizarTabelaFiscal(){
  
 //             System.out.print("comeca ");
-            int ContC=-1;// colunas da taabela nova
+            int ContC=-1;// colunas da tabela nova
             int contL=0;//linha da taabela nova
        
 //                for (int Col = 1; Col<=NDias ;Col++){ 
@@ -342,38 +360,44 @@ public static void OrganizarTabelaFiscal(){
             
        TabelaNew.addColumn("Fiscal"+(ContC+1));//
 //           System.out.println("main 265 coluna  "+ContC);  
-// int linantigo;
+// int linantigo
+int quantidade = 0;
            for (int col = 1; col<=NDias ;col++){ //coluna dos dados originais
 //                ContC=ContC+1;
                 contL=contL+1;
 //                linantigo=0;
 //                linantigo=linantigo+1;
-        if(lin==1){
-         TabelaNew.addRow(new Object [] {""} );
-         TabelaNew.addRow(new Object [] {""} );
-         TabelaNew.addRow(new Object [] {""} );
-            }
-//         System.out.println("main 276 coluna  "+ContC);
-           TabelaNew.setValueAt(modelo.getValueAt(lin-1,col-1), contL, ContC);//primeiro elemento
-          
-//           System.out.print(" "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
-//       System.out.println("main 280 coluna  "+ContC);
-            contL=contL+1;
-            TabelaNew.setValueAt(modelo.getValueAt(lin,col-1), contL, ContC);//segundo elemento
-//            System.out.print(" "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
-      
-             contL=contL+1;
-            TabelaNew.setValueAt(modelo.getValueAt(lin+1,col-1), contL, ContC);//livre
+        if(lin==1){//a cada dia ele coloca 3 linhas
+         TabelaNew.addRow(new Object [] {""} );//1h
+         TabelaNew.addRow(new Object [] {""} );//2h
+         TabelaNew.addRow(new Object [] {""} );//liberdade
 
-//      System.out.print(" "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
+            }
+         System.out.println("main 276 coluna  "+ContC);
+           TabelaNew.setValueAt(modelo.getValueAt(lin-1,col-1), contL, ContC);//primeiro horário
+          
+           System.out.print("363 "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
+       System.out.println("main 280 coluna  "+ContC);
+            contL=contL+1;
+            TabelaNew.setValueAt(modelo.getValueAt(lin,col-1), contL, ContC);//segundo horário
+            System.out.print("367 "+TabelaNew.getValueAt(contL,ContC));// print sem ln, não muda a linha
+      quantidade= quantidade+(int)modelo.getValueAt(lin-1,col-1)+(int)modelo.getValueAt(lin,col-1);
+             contL=contL+1;
+         
+            TabelaNew.setValueAt(modelo.getValueAt(lin+1,col-1), contL, ContC);//livre
+//             contL=contL+1;
+//            TabelaNew.setValueAt(quantidade, contL, ContC);//quantidade
+      System.out.print("374 quantidade = "+quantidade);// print sem ln, não muda a linha
       
       
        }
-//      System.out.println(" ");
+            if(lin==1){
+           TabelaNew.addRow(new Object [] {""} );//total disponível
+           }
+             TabelaNew.setValueAt(quantidade, contL+1, ContC);//quantidade
+      System.out.println(" ");
       } 
-    
-    
-    
+   
 }
 
 public static void DiasSalas(){

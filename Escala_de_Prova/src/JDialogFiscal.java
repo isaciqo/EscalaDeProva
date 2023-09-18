@@ -15,6 +15,7 @@ public class JDialogFiscal extends javax.swing.JDialog {
   int NDias=0;
   int NFiscais=0;
   int gravar=0;
+  int []diaseSalas ;
     /**
      * Creates new form JDialogFiscal
      */
@@ -27,6 +28,12 @@ public class JDialogFiscal extends javax.swing.JDialog {
     public int Infor_NFiscias(){
        
        return NFiscais;  
+         
+     }
+     public void Receber_MatrizSalas(int[] matriz,int ndias){
+    
+        diaseSalas = matriz;
+         NDias=ndias;
          
      }
      public int Status(){
@@ -53,7 +60,7 @@ public class JDialogFiscal extends javax.swing.JDialog {
         jLabel3.setText("Número de Fiscais Disponíveis");
 
         jTextnFiscais.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextnFiscais.setText("4");
+        jTextnFiscais.setText("6");
         jTextnFiscais.setToolTipText("");
 
         jButtonCancelar.setText("CANCELAR");
@@ -112,12 +119,36 @@ public class JDialogFiscal extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
  public void ler_dados(){
+//      System.out.println("122 aqeuiiiii ");
      if (jTextnFiscais.getText().equals("") || jTextnFiscais.getText().equals("0")) {
             JOptionPane.showMessageDialog(rootPane, "Forneça uma quantidade válida de Fiscias.", "AVISO", 2);//fica fora do Frame
 //            System.out.println("NÃO vai gravar ");
             return;
         }
      
+        NFiscais = Integer.parseInt(jTextnFiscais.getText());
+        
+        
+        
+        double dia = -0.5;
+      for (int lin = 1; lin<=2*NDias ;lin++){ 
+         dia=dia+0.5;
+//          System.out.println("130  diaseSalas[lin-1]= "+diaseSalas[lin-1]);
+        if (NFiscais <diaseSalas[lin-1] ) {
+            if (lin % 2==0){//entra quando é par
+//                System.out.println("134  par]= "+lin);
+                  JOptionPane.showMessageDialog(rootPane, "A quantidade de fiscais é insuficiente para o dia "+(lin*0.5)+" horário 2", "AVISO", 2);//fica fora do Frame
+            System.out.println("NÃO vai gravar ");
+            }else{//entra quando é impar
+            JOptionPane.showMessageDialog(rootPane, "A quantidade de fiscais é insuficiente para o dia "+(dia+1)+" horário 1", "AVISO", 2);//fica fora do Frame
+//            System.out.println("NÃO vai gravar ");
+//             gravar = 0;
+        
+        }
+        
+            return;
+      }
+      }
      gravar = 1;
      
  }

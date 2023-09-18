@@ -17,6 +17,7 @@ public class JDialogTabelaDias_Salas extends javax.swing.JDialog {
         String NomeEscala;   
         int NDias=0; 
         int []diaseSalas ;
+        int gravar=0; //saber se está tudo certo=1, problema=0
         
         
         
@@ -171,19 +172,24 @@ modeloturmas.setNumRows(0);
 int lin1=-2;
 int lin2=-1;
 // ****** CRIA AS LINHAS COM VALORES PADRÕES *****************************            
-
+int num=0;
 for (int i = 1; i<=NDias ;i++){//cria as linhas = turmas2*
             modeloturmas.addRow(new Object [] { ""} );
  lin1=lin1+2;
 lin2=lin2+2;
- modeloturmas.setValueAt(i, lin1, 0);
-     modeloturmas.setValueAt("1h", lin1, 1); 
-       modeloturmas.setValueAt("1", lin1, 2);
-//              modeloturmas.setValueAt("1", lin1, 3);
+num++;
+String numS="" + num;
+ modeloturmas.setValueAt(i, lin1, 0);//dia
+     modeloturmas.setValueAt("1h", lin1, 1); // horário 1
+       modeloturmas.setValueAt(numS, lin1, 2);//quantidades de sala 1h
+//              modeloturmas.setValueAt(i, lin1, 3);//"1"
                 modeloturmas.addRow(new Object [] { ""} );
-                modeloturmas.setValueAt(i, lin2, 0);
-                modeloturmas.setValueAt("2h", lin2, 1);
-                modeloturmas.setValueAt("1", lin2, 2);
+                modeloturmas.setValueAt(i, lin2, 0);//dia
+                modeloturmas.setValueAt("2h", lin2, 1);// horário 2
+                num++;
+                numS="" + num;
+
+                modeloturmas.setValueAt(numS, lin2, 2);//quantidades de sala 2h
 //                modeloturmas.setValueAt("1", lin2, 3);
                 
         }
@@ -266,7 +272,11 @@ DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 //          totalsalas = totalsalas+Integer.parseInt((String)jTableDias_Turmas.getValueAt(lin-1,2));
       diaseSalas [lin-1] = Integer.parseInt((String)jTableDias_Turmas.getValueAt(lin-1,2));  
 //      System.out.println("tabela dias 268 diaseSalas = "+diaseSalas [lin-1]);
+      
       } 
+      
+      
+      gravar =1;
       
 //       System.out.println("271 tabela totalsalas = "+totalsalas);
       
