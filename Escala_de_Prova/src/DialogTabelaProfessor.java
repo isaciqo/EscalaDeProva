@@ -221,7 +221,7 @@ public class DialogTabelaProfessor extends javax.swing.JDialog {
             ContCol=ContCol+2;
               modelo.addColumn("Dia"+(Col-3));//texto dia1,dia2,....
 //            modelo.addColumn("Livre"+Col);//texto Livre1,Livre2,....
-             System.out.println("224 dia=  "+(Col-2));  
+//             System.out.println("224 tabprofdia=  "+(Col-2));  
   
       for (int lin = 1; lin<=3*NFiscais ;lin++){ 
            modelo.addRow(new Object [] {""} );
@@ -290,8 +290,7 @@ int lin1=-3;
 for (int lin = 1; lin<=NFiscais ;lin++){//cria as linhas = turmas2*
             modeloProfessores.addRow(new Object [] { ""} );
  lin1=lin1+3;
-//lin2=lin2+3;
-//lin2=lin2+3;
+
 
  modeloProfessores.setValueAt("Fiscal"+lin, lin1, 0);
      modeloProfessores.setValueAt("1h", lin1, 1);
@@ -307,22 +306,27 @@ for (int lin = 1; lin<=NFiscais ;lin++){//cria as linhas = turmas2*
        modeloProfessores.setValueAt("1", lin1+1, col+1);
        modeloProfessores.setValueAt("1", lin1+2, col+1);// valor do livre
       }
-       
-//              modeloProfessores.setValueAt("1", ln1, NDias+1);// já está no for
-              
-      // tentar colocar em 1 só for os dias do 1h e 2h        
-              
-//                modeloProfessores.addRow(new Object [] { ""} );
-//                modeloProfessores.setValueAt("Fiscal"+i, lin2, 0);
-//                modeloProfessores.setValueAt("2h", lin2, 1);
-//                 for (int li2 = 1; li2<=NDias+1 ;li2++){
-//               
-//                 }
-//                modeloProfessores.setValueAt("1", lin2, NDias+1);// já está no for
-                
+        
         }
 // ******  FIM DE CRIAR AS LINHAS COM VALORES PADRÕES *****************************
 
+
+ //****apagar estas linhas depois ************
+          modeloProfessores.setValueAt("0", 10, 2);
+           modeloProfessores.setValueAt("0", 9, 2);
+            modeloProfessores.setValueAt("0", 10, 3);
+           modeloProfessores.setValueAt("0", 9, 3);
+            modeloProfessores.setValueAt("0", 6, 3);
+//           modeloProfessores.setValueAt("0", 7, 3);
+             modeloProfessores.setValueAt("0", 0, 2);
+           modeloProfessores.setValueAt("0", 1, 2);
+            modeloProfessores.setValueAt("0", 0, 3);
+           modeloProfessores.setValueAt("0", 1, 3);
+             modeloProfessores.setValueAt("0", 3, 2);
+           modeloProfessores.setValueAt("0", 4, 2);
+          //********************************************
+          
+          
 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
