@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -466,7 +467,9 @@ for (int i = 0; i < TabelaTemporaria.getColumnCount(); i++) {
 }
 
  System.out.println( "455   ");
-
+ // novos nomes das colunas da tabela ranqueada ******
+  Vector<Object> NovosNomes = new Vector<>(); 
+  
       int teste=0;
   for (int lin = 0; lin < rowCount; lin++) {
    for (int col = 0; col < colCount; col++) { //VAI PEGAR CADA COLUNA E COLOCAR OS NOVOS VALORES RANQUEADOS  
@@ -485,10 +488,16 @@ for (int i = 0; i < TabelaTemporaria.getColumnCount(); i++) {
           if(col==0){ 
            modeloTabelaFiscalRank.addRow(new Object [] {""} );
           }
+          
+         
             modeloTabelaFiscalRank.setValueAt(teste, lin, col);
-           
+            if(lin==0){ 
             Object novoNome = TabelaNova.getColumnName(index);
- System.out.println( "novoNome= "+novoNome);
+             NovosNomes.add(novoNome);
+            }
+//            Object novoNome = TabelaNova.getColumnName(index);
+            
+// System.out.println( "novoNome= "+novoNome);
 
 // modeloTabelaFiscalRank.setColumnName(index,novoNome);
             
@@ -519,21 +528,29 @@ for (int i = 0; i < TabelaTemporaria.getColumnCount(); i++) {
 //    modeloTabelaFiscalRank.addRow(rowData);
 //}
 //TabelaTemporaria = TabelaNova;
- System.out.print( "515 linhas=  "+modeloTabelaFiscalRank.getRowCount());
+// System.out.print( "515 linhas=  "+modeloTabelaFiscalRank.getRowCount());
+    modeloTabelaFiscalRank.setColumnIdentifiers(NovosNomes);
 TabelaFiscalRank = modeloTabelaFiscalRank;
 //jTableProfessores.removeAll();
+
         jTableProfessores.setModel(TabelaFiscalRank);  
 
-         for (int col = 0; col < colCount; col++) {
-//             for (Map.Entry<Integer, Integer> entry : QuantidadesOrdenadas) {
-            Map.Entry<Integer, Integer> entrynew = QuantidadesOrdenadas.get(col);
-            Integer index = entrynew.getKey();
-  Object novoNome = TabelaNova.getColumnName(index);
- System.out.println( "novoNome= "+novoNome);
- jTableProfessores.getColumnModel().getColumn(col).setHeaderValue(novoNome);
-// TabelaFiscalRank
-         } 
+//     Vector<Object> NovosNomes = new Vector<>();   
         
+////         for (int col = 0; col < colCount; col++) {
+//////             for (Map.Entry<Integer, Integer> entry : QuantidadesOrdenadas) {
+////            Map.Entry<Integer, Integer> entrynew = QuantidadesOrdenadas.get(col);
+////            Integer index = entrynew.getKey();
+////  Object novoNome = TabelaNova.getColumnName(index);
+////  NovosNomes.add(novoNome);
+////  
+//// System.out.println( "novoNome= "+novoNome);
+//// //******funciona ******
+////// jTableProfessores.getColumnModel().getColumn(col).setHeaderValue(novoNome);
+////         }
+      
+//         modeloTabelaFiscalRank.setColumnIdentifiers(NovosNomes);
+//        jTableProfessores.setModel(modeloTabelaFiscalRank);   
         
         
 }
